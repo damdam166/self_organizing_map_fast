@@ -108,24 +108,35 @@ def update(t : int, c : int, X_input : np.ndarray,
 # PLOT
 # -------------------------------------------------------------------------
 
-def display(X_input : np.ndarray, array_neurons : np.ndarray, 
-            c : int = -1):
+def display(array_inputs : np.ndarray, array_neurons : np.ndarray, 
+            c : int = -1, X : np.ndarray = None):
     """ To plot the map with Matplotlib.
-    :param X_input: the input vector.
+    :param array_inputs: the array of input vectors.
     :param array_neurons: the neurons.
-    They are vectors of same dimension with X_input.
+    They are vectors of same dimension with array_inputs.
     :param c: the index of winner in array_neurons.
+    :param X: the chosen input vector if necessary.
     -1 means there is no need to display the winner.
     """
     fig, ax = plt.subplots()
     
-    # Input vector
+    # Input vectors
     plt.plot(
-        X_input[0], 
-        X_input[1],
+        array_inputs[:, 0],
+        array_inputs[:, 1],
         marker='o',
         color='blue',
     )
+
+    # Chosen input vector
+    if np.all(X) != None:
+        plt.plot(
+            X[0],
+            X[1],
+            marker='o',
+            markersize=10,
+            color='green',
+        )
 
     # Map
     plt.plot(
@@ -146,24 +157,25 @@ def display(X_input : np.ndarray, array_neurons : np.ndarray,
             color='black',
         )
 
+    plt.axis(False)
     plt.show()
 
 # -------------------------------------------------------------------------
 
 if __name__ == '__main__':
     # Initialize the input vector
-    X_input : np.ndarray = np.array([10, 10])
+    array_inputs : np.ndarray = np.array([ [10, 10], [5, 10] ])
 
     # Initialize the neurons
     min = np.array([ 0, 0 ])
     max = np.array([ 5, 5 ])
-    number_neurons : int = 3
+    number_neurons : int = 5
     compose = lambda i: initialize_neuron(min, max)
     array_neurons = np.array([ compose(0) for i in range(number_neurons) ])
 
-    input = lambda i: X_input
+    input = lambda i: array_inputs[random.randrange(array_inputs.shape[0])]
 
-    display(X_input, array_neurons)
+    display(array_inputs, array_neurons)
 
     # Loop
     T : int = 100 # Number of iterations
@@ -171,17 +183,20 @@ if __name__ == '__main__':
         # Choose the input vector
         X = input(0)
     
+        # Display the chosen input vector
+        display(array_inputs, array_neurons, -1, X)
+
         # The winner
         c : int = winner(X, array_neurons)
 
         # Display the winner
-        display(X, array_neurons, c)
+        display(array_inputs, array_neurons, c, X)
 
         # Update
         array_neurons = update(t, c, X, array_neurons, T)
 
         # Display the update
-        display(X, array_neurons)
+        display(array_inputs, array_neurons)
 
 # -------------------------------------------------------------------------
 
