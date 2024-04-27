@@ -58,7 +58,7 @@ def initialize_neuron(min : np.ndarray, max : np.ndarray) -> np.ndarray:
     # ])
 
     compose = lambda i: random.random() * ( max[i] - min[i] ) + min[i]
-    return compose(np.arange(min.shape[0]))
+    return np.array([ compose(i) for i in range(min.shape[0]) ])
 
 # -------------------------------------------------------------------------
 # WINNER
@@ -128,18 +128,21 @@ def display(X_input : np.ndarray, array_neurons : np.ndarray,
 
     # Map
     plt.plot(
-        array_neurons, 
-        marker='x',
-        markersize=6,
+        array_neurons[:, 0],
+        array_neurons[:, 1],
+        marker='o',
+        markersize=4,
         color='red',
     )
 
     # Winner
     if c != - 1:
         plt.plot(
-            array_neurons[c],
-            marker='x',
-            color='green',
+            array_neurons[c][0],
+            array_neurons[c][1],
+            marker='o',
+            markersize=10,
+            color='black',
         )
 
 
