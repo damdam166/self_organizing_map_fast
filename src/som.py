@@ -1,6 +1,7 @@
 import numpy as np
 import math
 import random
+import matplotlib.pyplot as plt
 
 # -------------------------------------------------------------------------
 # DISTANCE
@@ -74,7 +75,6 @@ def winner(X_input : np.ndarray, array_neurons : np.ndarray) -> int:
         np.array([ compose(neuron) for neuron in array_neurons ])
     )
 
-
 # -------------------------------------------------------------------------
 # UPDATE
 # -------------------------------------------------------------------------
@@ -102,5 +102,62 @@ def update(t : int, c : int, X_input : np.ndarray,
         ))
 
     return compose(np.arange(array_neurons.shape[1]))
+
+# -------------------------------------------------------------------------
+# PLOT
+# -------------------------------------------------------------------------
+
+def display(X_input : np.ndarray, array_neurons : np.ndarray, 
+            c : int = -1):
+    """ To plot the map with Matplotlib.
+    :param X_input: the input vector.
+    :param array_neurons: the neurons.
+    They are vectors of same dimension with X_input.
+    :param c: the index of winner in array_neurons.
+    -1 means there is no need to display the winner.
+    """
+    fig, ax = plt.subplots()
+    
+    # Input vector
+    plt.plot(
+        X_input[0], 
+        X_input[1],
+        marker='o',
+        color='blue',
+    )
+
+    # Map
+    plt.plot(
+        array_neurons, 
+        marker='x',
+        markersize=6,
+        color='red',
+    )
+
+    # Winner
+    if c != - 1:
+        plt.plot(
+            array_neurons[c],
+            marker='x',
+            color='green',
+        )
+
+
+    plt.show()
+
+# -------------------------------------------------------------------------
+
+if __name__ == '__main__':
+    # Initialize the input vector
+    X_input : np.ndarray = np.array([10, 10])
+
+    # Initialize the neurons
+    min = np.array([ 0, 0 ])
+    max = np.array([ 5, 5 ])
+    number_neurons : int = 5
+    compose = lambda i: initialize_neuron(min, max)
+    array_neurons = np.array([ compose(0) for i in range(number_neurons) ])
+
+    display(X_input, array_neurons)
 
 
