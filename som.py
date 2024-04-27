@@ -43,7 +43,7 @@ def neighborhood(dist_x_y : float, s : float = 1) -> float:
     return math.exp( - dist_x_y * dist_x_y / ( 2 * s * s ) )
 
 # -------------------------------------------------------------------------
-# NEIGHBORHOOD FUNCTION
+# CREATE A NEURON
 # -------------------------------------------------------------------------
 
 def initialize_neuron(min : np.ndarray, max : np.ndarray) -> np.ndarray:
@@ -69,10 +69,11 @@ def winner(X_input : np.ndarray, array_neurons : np.ndarray) -> int:
     :param array_neurons: an array of neurons, same dimen with X_input.
     :return: the index of the winner from the array_neurons.
     """
-    compose = lambda i: distance(X_input, array_neurons[i])
+    compose = lambda neuron: distance(X_input, neuron)
     return np.argmin(
-        compose(np.arange(array_neurons.shape[0]))
+        np.array([ compose(neuron) for neuron in array_neurons ])
     )
+
 
 # -------------------------------------------------------------------------
 # UPDATE
