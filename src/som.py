@@ -37,7 +37,7 @@ def learning_rate(t : int, T : int = 100, a : float = 1) -> float:
 # NEIGHBORHOOD FUNCTION
 # -------------------------------------------------------------------------
 
-def neighborhood(dist_x_y : float, s : float = 1) -> float:
+def neighborhood(dist_x_y : float, s : float = 5) -> float:
     """ f(dist_x_y) == 1 <==> x and y are neighbors.
     :param dist_x_y: dist(X, Y) where X is an input vector, Y a neuron.
     """
@@ -91,17 +91,21 @@ def update(t : int, c : int, X_input : np.ndarray,
     """
 
     # Linear topology
-    are_neighbors = lambda i, j: i == j or i == j - 1 or i == j + 1
+    are_neighbors = lambda i: i == c or i == c - 1 or i == c + 1
 
+    print(array_neurons[winner(X_input, array_neurons)])
+    print(distance(X_input, array_neurons[winner(X_input, array_neurons)]))
+    print(neighborhood(distance(X_input, array_neurons[winner(X_input, array_neurons)])))
     compose = lambda i: ( 
-        array_neurons[i] if not are_neighbors(c, j) else ( 
+        array_neurons[i] if not are_neighbors(i) else ( 
             array_neurons[i] 
-                + neighborhood(X_input, array_neurons[i]) 
+                + neighborhood(distance(X_input, array_neurons[i])) 
                     * learning_rate(t, T) 
                     * ( X_input - array_neurons[i] ) 
-        ))
+        )
+    )
 
-    return compose(np.arange(array_neurons.shape[1]))
+    return np.array([ compose(i) for i in range(array_neurons.shape[0]) ])
 
 # -------------------------------------------------------------------------
 # PLOT
@@ -145,7 +149,6 @@ def display(X_input : np.ndarray, array_neurons : np.ndarray,
             color='black',
         )
 
-
     plt.show()
 
 # -------------------------------------------------------------------------
@@ -157,10 +160,32 @@ if __name__ == '__main__':
     # Initialize the neurons
     min = np.array([ 0, 0 ])
     max = np.array([ 5, 5 ])
-    number_neurons : int = 5
+    number_neurons : int = 3
     compose = lambda i: initialize_neuron(min, max)
     array_neurons = np.array([ compose(0) for i in range(number_neurons) ])
 
+    input = lambda i: X_input
+
     display(X_input, array_neurons)
+
+    # Loop
+    T : int = 100 # Number of iterations
+    for t in range (T):
+        # Choose the input vector
+        X = input(0)
+    
+        # The winner
+        c : int = winner(X, array_neurons)
+
+        # Display the winner
+        display(X, array_neurons, c)
+
+        # Update
+        array_neurons = update(t, c, X, array_neurons, T)
+
+        # Display the update
+        display(X, array_neurons)
+
+# -------------------------------------------------------------------------
 
 
