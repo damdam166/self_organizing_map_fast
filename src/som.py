@@ -108,7 +108,7 @@ def update(t : int, c : int, X_input : np.ndarray,
 # PLOT
 # -------------------------------------------------------------------------
 
-def display(array_inputs : np.ndarray, array_neurons : np.ndarray, 
+def display(array_inputs : np.ndarray, array_neurons : np.ndarray, t : int,
             c : int = -1, X : np.ndarray = None):
     """ To plot the map with Matplotlib.
     :param array_inputs: the array of input vectors.
@@ -157,6 +157,7 @@ def display(array_inputs : np.ndarray, array_neurons : np.ndarray,
             color='black',
         )
 
+    plt.title(f'number of the current iteration : {t}')
     plt.axis(False)
     plt.show()
 
@@ -175,28 +176,30 @@ if __name__ == '__main__':
 
     input = lambda i: array_inputs[random.randrange(array_inputs.shape[0])]
 
-    display(array_inputs, array_neurons)
+    display(array_inputs, array_neurons, 0)
 
     # Loop
-    T : int = 100 # Number of iterations
+    T : int = 30000 # Number of iterations
     for t in range (T):
         # Choose the input vector
         X = input(0)
     
         # Display the chosen input vector
-        display(array_inputs, array_neurons, -1, X)
+        # display(array_inputs, array_neurons, t, -1, X)
 
         # The winner
         c : int = winner(X, array_neurons)
 
         # Display the winner
-        display(array_inputs, array_neurons, c, X)
+        # display(array_inputs, array_neurons, t, c, X)
 
         # Update
         array_neurons = update(t, c, X, array_neurons, T)
 
         # Display the update
-        display(array_inputs, array_neurons)
+        # display(array_inputs, array_neurons, t)
+
+    display(array_inputs, array_neurons, t)
 
 # -------------------------------------------------------------------------
 
