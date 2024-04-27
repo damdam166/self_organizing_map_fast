@@ -37,7 +37,7 @@ def learning_rate(t : int, T : int = 100, a : float = 1) -> float:
 # NEIGHBORHOOD FUNCTION
 # -------------------------------------------------------------------------
 
-def neighborhood(dist_x_y : float, s : float = 5) -> float:
+def neighborhood(dist_x_y : float, s : float = 10) -> float:
     """ f(dist_x_y) == 1 <==> x and y are neighbors.
     :param dist_x_y: dist(X, Y) where X is an input vector, Y a neuron.
     """
@@ -164,12 +164,12 @@ def display(array_inputs : np.ndarray, array_neurons : np.ndarray,
 
 if __name__ == '__main__':
     # Initialize the input vector
-    array_inputs : np.ndarray = np.array([ [10, 10], [5, 10] ])
+    array_inputs : np.ndarray = np.array([ [12, 10], [11, 10], [10, 10], [10, 9], [10, 8], [10, 7], [11, 7], [12, 7] ])
 
     # Initialize the neurons
     min = np.array([ 0, 0 ])
     max = np.array([ 5, 5 ])
-    number_neurons : int = 5
+    number_neurons : int = 20
     compose = lambda i: initialize_neuron(min, max)
     array_neurons = np.array([ compose(0) for i in range(number_neurons) ])
 
