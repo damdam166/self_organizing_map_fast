@@ -93,9 +93,6 @@ def update(t : int, c : int, X_input : np.ndarray,
     # Linear topology
     are_neighbors = lambda i: i == c or i == c - 1 or i == c + 1
 
-    print(array_neurons[winner(X_input, array_neurons)])
-    print(distance(X_input, array_neurons[winner(X_input, array_neurons)]))
-    print(neighborhood(distance(X_input, array_neurons[winner(X_input, array_neurons)])))
     compose = lambda i: ( 
         array_neurons[i] if not are_neighbors(i) else ( 
             array_neurons[i] 
