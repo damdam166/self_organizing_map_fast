@@ -185,19 +185,19 @@ if __name__ == '__main__':
         X = input(0)
     
         # Display the chosen input vector
-        # display(array_inputs, array_neurons, t, -1, X)
+        display(array_inputs, array_neurons, t, -1, X)
 
         # The winner
         c : int = winner(X, array_neurons)
 
         # Display the winner
-        # display(array_inputs, array_neurons, t, c, X)
+        display(array_inputs, array_neurons, t, c, X)
 
         # Update
         array_neurons = update(t, c, X, array_neurons, T)
 
         # Display the update
-        # display(array_inputs, array_neurons, t)
+        display(array_inputs, array_neurons, t)
 
     display(array_inputs, array_neurons, t)
 
